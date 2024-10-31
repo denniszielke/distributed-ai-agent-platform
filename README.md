@@ -1,4 +1,4 @@
-# Async AI Agents and Humans in the loop
+# Distributed async AI Agents and Humans in the loop
 
 This project demonstrates how to implement a human in the loop pattern using multiple asynchronous AI agents.
 
