@@ -1,4 +1,4 @@
-name: adventure-day-agents
+name: agent-swarm-platform
 metadata:
   template: openai-plugin-fastapi@0.0.1-beta
 hooks:
@@ -8,8 +8,8 @@ hooks:
       continueOnError: false
       interactive: true
       run: azd-hooks/post-provision.sh
-  postdeploy: # Pull environment variable inline from local device and set in .env file
-      shell: sh
-      run: cp .azure/$AZURE_ENV_NAME/.env ./
+  postdeploy:
+    shell: sh
+    run: cp .azure/$AZURE_ENV_NAME/.env ./
 infra:
   provider: bicep

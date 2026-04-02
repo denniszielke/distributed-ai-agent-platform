@@ -19,13 +19,12 @@ param openaiName string = ''
 param applicationInsightsDashboardName string = ''
 param applicationInsightsName string = ''
 param logAnalyticsName string = ''
-param sqlServerName string = ''
-param sqlDatabaseName string = 'northwind'
 param keyVaultName string = ''
+param storageAccountName string = ''
 
 var abbrs = loadJsonContent('./abbreviations.json')
 var resourceToken = toLower(uniqueString(subscription().id, environmentName, location))
-var tags = { 'azd-env-name': environmentName, 'app': 'ai-agents', 'tracing': 'yes' }
+var tags = { 'azd-env-name': environmentName, 'app': 'agent-swarm', 'tracing': 'yes' }
 
 param completionDeploymentModelName string = 'gpt-4o'
 param completionModelName string = 'gpt-4o'
@@ -72,7 +71,7 @@ module containerApps './core/host/container-apps.bicep' = {
     location: location
     logAnalyticsWorkspaceName: monitoring.outputs.logAnalyticsWorkspaceName
     applicationInsightsName: monitoring.outputs.applicationInsightsName
-    identityName: '${abbrs.managedIdentityUserAssignedIdentities}api-agents'
+    identityName: '${abbrs.managedIdentityUserAssignedIdentities}agent-swarm'
     openaiName: openai.outputs.openaiName
   }
 }
@@ -91,6 +90,7 @@ module openai './ai/openai.bicep' = {
   }
 }
 
+// Azure AI Search
 module search './ai/search.bicep' = {
   name: 'search'
   scope: resourceGroup
@@ -98,6 +98,17 @@ module search './ai/search.bicep' = {
     location: location
     tags: tags
     name: !empty(openaiName) ? openaiName : '${abbrs.searchSearchServices}${resourceToken}'
+  }
+}
+
+// Azure Storage Account (queues + blobs for agent communication)
+module storage './core/storage/storage-account.bicep' = {
+  name: 'storage'
+  scope: resourceGroup
+  params: {
+    name: !empty(storageAccountName) ? storageAccountName : '${abbrs.storageStorageAccounts}${resourceToken}'
+    location: location
+    tags: tags
   }
 }
 
@@ -147,3 +158,5 @@ output AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME string = embeddingDeploymentModelN
 output AZURE_AI_SEARCH_NAME string = search.outputs.searchName
 output AZURE_AI_SEARCH_ENDPOINT string = search.outputs.searchEndpoint
 output AZURE_AI_SEARCH_KEY string = search.outputs.searchAdminKey
+output AZURE_STORAGE_ACCOUNT_NAME string = storage.outputs.name
+output AZURE_STORAGE_CONNECTION_STRING string = storage.outputs.connectionString
