@@ -136,6 +136,7 @@ class SwarmDatabase:
         for k, v in kwargs.items():
             if k not in allowed:
                 continue
+            assert k.isidentifier(), f"Invalid column name: {k}"
             parts.append(f"{k} = ?")
             values.append(v.value if isinstance(v, TaskStatus) else v)
         if not parts:
@@ -264,6 +265,7 @@ class SwarmDatabase:
         for k, v in kwargs.items():
             if k not in allowed:
                 continue
+            assert k.isidentifier(), f"Invalid column name: {k}"
             parts.append(f"{k} = ?")
             if isinstance(v, TaskStatus):
                 values.append(v.value)

@@ -8,7 +8,7 @@ import os
 from typing import Optional
 
 from azure.identity import DefaultAzureCredential
-from azure.storage.blob import BlobServiceClient
+from azure.storage.blob import BlobServiceClient, ContentSettings
 from azure.storage.queue import QueueClient, QueueServiceClient
 
 from .models import SwarmMessage
@@ -109,7 +109,7 @@ class CommunicationLayer:
             return ""
         container = self._blob_service.get_container_client(BLOB_CONTAINER_SHARED)
         blob = container.get_blob_client(blob_name)
-        blob.upload_blob(data, overwrite=True, content_settings={"content_type": content_type})
+        blob.upload_blob(data, overwrite=True, content_settings=ContentSettings(content_type=content_type))
         logger.info("Uploaded blob %s", blob_name)
         return blob.url
 

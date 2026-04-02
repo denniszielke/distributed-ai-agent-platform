@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 
 import httpx
 import uvicorn
@@ -63,7 +63,7 @@ async def dashboard(request: Request) -> HTMLResponse:
             "objectives": objectives,
             "tasks": tasks,
             "registry": registry,
-            "now": datetime.utcnow().isoformat(),
+            "now": datetime.now(timezone.utc).isoformat(),
         },
     )
 

@@ -65,10 +65,12 @@ async def poll_aggregator_queue(interval: float = 5.0) -> None:
                     plan = db.get_plan_by_objective(msg.objective_id)
                     if plan is None:
                         continue
-                    all_done = all(
-                        (db.get_task(t.id) and db.get_task(t.id).status in (TaskStatus.COMPLETED, TaskStatus.FAILED))
-                        for t in plan.tasks
-                    )
+                    all_done = True
+                    for t in plan.tasks:
+                        fetched = db.get_task(t.id)
+                        if not fetched or fetched.status not in (TaskStatus.COMPLETED, TaskStatus.FAILED):
+                            all_done = False
+                            break
                     if all_done:
                         result = aggregator.aggregate(msg.objective_id)
                         # Send completion back to controller
