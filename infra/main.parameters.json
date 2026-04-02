@@ -8,17 +8,14 @@
     "location": {
       "value": "${AZURE_LOCATION}"
     },
+    "aiResourceLocation": {
+      "value": "${AZURE_AI_SERVICE_LOCATION}"
+    },
     "principalId": {
       "value": "${AZURE_PRINCIPAL_ID}"
     },
     "openaiCapacity": {
       "value": "${OPENAI_CAPACITY}"
-    },
-    "databasePassword": {
-      "value": "$(secretOrRandomPassword ${AZURE_KEY_VAULT_NAME} databasePassword)"
-    },
-    "appUserPassword": {
-      "value": "$(secretOrRandomPassword ${AZURE_KEY_VAULT_NAME} appUserPassword)"
     }
   }
 }

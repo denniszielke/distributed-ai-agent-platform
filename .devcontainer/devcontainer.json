@@ -38,7 +38,7 @@
         }
     },
     "forwardPorts": [
-        8000
+        8000, 8001, 8002, 8003, 8004, 8080
     ],
     "postAttachCommand": "",
     "postCreateCommand": "pip3 install --user -r requirements.txt",
@@ -49,7 +49,22 @@
     },
     "portsAttributes": {
         "8000": {
-            "label": "Streamlit UI"
+            "label": "Swarm Controller"
+        },
+        "8001": {
+            "label": "Planner Agent"
+        },
+        "8002": {
+            "label": "Swarm Registry"
+        },
+        "8003": {
+            "label": "Aggregator Agent"
+        },
+        "8004": {
+            "label": "MCP Server"
+        },
+        "8080": {
+            "label": "Dashboard"
         }
     }
 }
