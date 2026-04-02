@@ -2,7 +2,7 @@ python-dotenv==1.1.0
 fastapi==0.115.12
 uvicorn==0.34.2
 pydantic==2.11.3
-fastmcp==2.13.1
+fastmcp==3.2.0
 azure-ai-projects==2.0.0b3
 azure-identity==1.23.0
 azure-storage-blob==12.25.1
